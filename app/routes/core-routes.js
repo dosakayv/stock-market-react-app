@@ -76,7 +76,7 @@ var routes = function(app) {
 			console.log(stocks);
 			console.log("stocks to that I got from database");
 
-			var url = 'http://query.yahooapis.com/v1/public/yql';
+			var url = 'https://query.yahooapis.com/v1/public/yql';
 			var dates = getStartAndEndDates();
 			var startDate = dates.startDate;
 			var endDate = dates.endDate;

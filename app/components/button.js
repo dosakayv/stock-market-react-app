@@ -104,7 +104,7 @@ var input = React.createClass({
 	    var getStock = function(stockName){
 			// console.log("stockName: ", stockName);
 			// var stock = stockName + "";
-		 	var url = 'http://query.yahooapis.com/v1/public/yql';
+		 	var url = 'https://query.yahooapis.com/v1/public/yql';
 			var startDate = '2016-04-10';
 			var endDate = '2016-04-12';
 			// var data = encodeURIComponent('select * from yahoo.finance.historicaldata where symbol in ("YHOO","AAPL","GOOG","MSFT") and startDate = "' + startDate + '" and endDate = "' + endDate + '"');

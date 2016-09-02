@@ -83,7 +83,7 @@ var getStockData = function(stockName, addStockCallback, self) {
 			});
 		}
 	};
-	var url = 'http://query.yahooapis.com/v1/public/yql';
+	var url = 'https://query.yahooapis.com/v1/public/yql';
 
 	var dates = getStartAndEndDates();
 

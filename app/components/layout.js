@@ -66,7 +66,7 @@ var layout = React.createClass({
 		}
 	},
 	getAllStocksData: function(stocksToDisplay) {
-		var url = 'http://query.yahooapis.com/v1/public/yql';
+		var url = 'https://query.yahooapis.com/v1/public/yql';
 		var startDate = '2016-04-10';
 		var endDate = '2016-04-12';
 		
@@ -169,7 +169,10 @@ var layout = React.createClass({
 
 		var self = this;
 		// Request.post({url: 'http://localhost:4000/insert', form:{name: stockData.dataset.dataset_code, description: stockData.dataset.name}}, function(err,httpResponse,body){
-		Request.post({url: 'http://localhost:4000/insert', form:{name: stockSymbol, description: stockSymbol}}, function(err,httpResponse,body){
+		// Request.post({url: 'http://localhost:4000/insert', form:{name: stockSymbol, description: stockSymbol}}, function(err,httpResponse,body){
+		
+		// Have to figure out proper way to post!!!!! vishnu
+		Request.post({url: 'https://react-stock-app.herokuapp.com/insert', form:{name: stockSymbol, description: stockSymbol}}, function(err,httpResponse,body){
 			console.log(err);
 			console.log(httpResponse);
 			console.log(body);
@@ -217,7 +220,10 @@ var layout = React.createClass({
 			return stockIndex;
 		}
 		// Request.post({url: 'http://localhost:4000/delete', form:{name: "GOOG"}}, function(err,httpResponse,body){
-		Request.post({url: 'http://localhost:4000/delete', form:{name: stock}}, function(err,httpResponse,body){
+		// Request.post({url: 'http://localhost:4000/delete', form:{name: stock}}, function(err,httpResponse,body){
+
+		// Have to figure out proper way to post!!!!! vishnu
+		Request.post({url: 'https://react-stock-app.herokuapp.com/delete', form:{name: stock}}, function(err,httpResponse,body){
 			// have to remove from list now 
 
 			// var indexOfStockToRemove = stocksToDisplay.indexOf(body);
