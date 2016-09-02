@@ -19,14 +19,15 @@
     "mongoose": "^4.5.2",
     "node-jsx": "^0.13.3",
     "react": "^15.0.1",
+    "react-dom": "^15.3.1",
     "react-tap-event-plugin": "^1.0.0",
     "request": "^2.72.0",
-    "yahoo-finance": "^0.2.12",
-    "reactify": "^1.1.1"
+    "yahoo-finance": "^0.2.12"
   },
   "devDependencies": {
     "browserify": "^13.0.1",
     "gulp": "^3.9.1",
-    "gulp-browserify": "^0.5.1"
+    "gulp-browserify": "^0.5.1",
+    "reactify": "^1.1.1"
   }
 }
