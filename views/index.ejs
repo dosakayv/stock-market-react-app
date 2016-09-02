@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+  <head>
+    <title>React Isomorphic Server Side Rendering Example</title>
+    <link href='/styles.css' rel="stylesheet">
+  </head>
+  <body>
+    <div id="react-main-mount">
+      <%- reactOutput %>
+    </div>
+
+    <script id="initial-data" type="application/json"><%- initialStocksData %></script>
+
+    <div id="chart_div"></div>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://code.highcharts.com"></script>
+    <script src="/main.js"></script>
+  </body>
+</html>
+	<!-- <h1 id="main-title">Isomorphic Server Side Rendering with React</h1> -->
