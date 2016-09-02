@@ -21,12 +21,12 @@
     "react": "^15.0.1",
     "react-tap-event-plugin": "^1.0.0",
     "request": "^2.72.0",
-    "yahoo-finance": "^0.2.12"
+    "yahoo-finance": "^0.2.12",
+    "reactify": "^1.1.1"
   },
   "devDependencies": {
     "browserify": "^13.0.1",
     "gulp": "^3.9.1",
-    "gulp-browserify": "^0.5.1",
-    "reactify": "^1.1.1"
+    "gulp-browserify": "^0.5.1"
   }
 }
