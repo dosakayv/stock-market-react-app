@@ -5,7 +5,9 @@ var mongoose = require("mongoose");
 var bodyParser = require('body-parser');
 
 var app = express();
-var port = 4000;
+var port = process.env.PORT || 4000;
+// app
+
 
 // connect to mongo db
 mongoose.connect("mongodb://cucumberv:cucumberv@ds023654.mlab.com:23654/stocks-graph", function(err, database){
