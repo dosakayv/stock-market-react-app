@@ -251,7 +251,7 @@ var input = React.createClass({
 					{stockHTML}
 				</div>
 				<MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-					<Snackbar style={snackBarMessageStyle} className="warningMessage" open={this.state.openSnackBar} message={this.state.snackBarMessages}/>			
+					<Snackbar className="warningMessage" open={this.state.openSnackBar} message={this.state.snackBarMessages}/>			
 				</MuiThemeProvider>
 			</div>
 		);
