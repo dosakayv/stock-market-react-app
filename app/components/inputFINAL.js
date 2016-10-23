@@ -44,42 +44,43 @@ var getStockData = function(stockName, addStockCallback, self) {
 	// This works for one stock
 
 	// repeating code have to delete
-		var getStartAndEndDates = function() {
-			var dates = {
-				startDate: "",
-				endDate: ""
-			};
-
-			var today = new Date();
-			var dd = today.getDate();
-			var mm = today.getMonth()+1;
-			var yyyy = today.getFullYear();
-
-			if(dd<10) {
-				dd='0'+dd
-			} 
-
-			if(mm<10) {
-				mm='0'+mm
-			} 
-
-			dates.startDate = (yyyy - 1) + '-' + mm + '-' + dd;
-			dates.endDate = yyyy + '-' + mm +'-'+ dd;
-
-			return dates;
+	var getStartAndEndDates = function() {
+		var dates = {
+			startDate: "",
+			endDate: ""
 		};
+
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1;
+		var yyyy = today.getFullYear();
+
+		if(dd<10) {
+			dd='0'+dd
+		} 
+
+		if(mm<10) {
+			mm='0'+mm
+		} 
+
+		dates.startDate = (yyyy - 1) + '-' + mm + '-' + dd;
+		dates.endDate = yyyy + '-' + mm +'-'+ dd;
+
+		return dates;
+	};
 	// repeating code have to delete
 
-	// work in progress
 	var callback = function(response){
 		if (!!response.query.results) {
-			// updateGraphCallback();
+			self.setState({
+				disableAddButton: false
+			});
 			addStockCallback(response);
 		}
 		else {
 			self.setState({
 				openSnackBar: true,
-				snackBarMessages: "This stock does not exist any where in the world buddy"
+				snackBarMessages: "This stock does not exist. Please check the stock symbol again."
 			});
 		}
 	};
@@ -89,9 +90,6 @@ var getStockData = function(stockName, addStockCallback, self) {
 
 	var startDate = dates.startDate;
 	var endDate = dates.endDate;
-
-	// var startDate = '2016-04-10';
-	// var endDate = '2016-04-12';
 	
 	var data = encodeURIComponent('select * from yahoo.finance.historicaldata where symbol in ("' + stockName + '") and startDate = "' + startDate + '" and endDate = "' + endDate + '"');
 	// var data = encodeURIComponent('select * from yahoo.finance.quotes where symbol in ("' + stockName + '")');
@@ -99,55 +97,42 @@ var getStockData = function(stockName, addStockCallback, self) {
 	$.getJSON(url, 'q=' + data + "&env=http%3A%2F%2Fdatatables.org%2Falltables.env&format=json", callback);
 	// Request.get(url + '?q=' + data + "&env=http%3A%2F%2Fdatatables.org%2Falltables.env&format=json", callback);
 
-	// work in progress
-
 };
 
 var stockToAdd = "";
 
 var input = React.createClass({
 	componentDidMount: function() {
-		console.log("The input component mounted");
-		console.log(this.props.stocks);
-		console.log("The input component mounted");
-
-		console.log("THIS IS ALL THE STOCK DATA IN INPUT");
-		console.log(this.props.stocksData);
-		console.log("THIS IS ALL THE STOCK DATA IN INPUT");
+		// console.log(this.props.stocks);
+		// console.log(this.props.stocksData);
 	},
 	getInitialState: function() {
-		// var initialState = {
-		// 	openSnackBar: false,
-		// 	snackBarMessages: ""
-		// };
 		var initialState = {
-			openSnackBar: true,
-			snackBarMessages: "This is just random text hopefully this works"
+			openSnackBar: false,
+			snackBarMessages: "",
+			disableAddButton: false
 		};
 
 		return initialState
 	},
 	handleChange: function(event) {
-		console.log("this change works");
-		console.log(event);
-
 		stockToAdd = event.target.value.toUpperCase();
 	},
 	handleAddButtonClick: function(event) {
-		console.log("this click works");
-		console.log(event);
 		if (this.props.stocks.indexOf(stockToAdd) > -1) {
 			this.setState({
 				openSnackBar: true,
-				snackBarMessages: "This stock already exists in stock list buddy"
+				snackBarMessages: "This stock already exists in the stock list to the left."
 			});
 		}
 		else {
+			this.setState({
+				disableAddButton: true
+			})
 			getStockData(stockToAdd, this.props.addStock, this);
 		}
 	},
 	handleDeleteButtonClick: function(event) {
-		console.log(event);
 		var stockToDelete = event.currentTarget.id;
 		this.props.deleteStock(stockToDelete);
 	},
@@ -160,13 +145,6 @@ var input = React.createClass({
 	render: function() {
 		var stockHTML = [];
 		var self = this;
-		console.log("input component render stocks");
-		console.log(this.props.stocks);
-		console.log("input component render stocks");
-
-		console.log("THIS IS ALL THE STOCK DATA IN INPUT");
-		console.log(this.props.stocksData);
-		console.log("THIS IS ALL THE STOCK DATA IN INPUT");
 
 		var iconStyles = {
 			height: "20px",
@@ -233,13 +211,8 @@ var input = React.createClass({
 			};
 
 			var cardActionsStyle = {
-				"padding-left": "16px",
+				"padding-left": "16px"
 			};
-
-			// var snackBarMessageStyle = {
-			// 	"background-color": "",
-			// 	""
-			// };
 
 			stockHTML.push(
 				<MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
@@ -263,6 +236,7 @@ var input = React.createClass({
 				</MuiThemeProvider>	
 			)
 		});
+
 		return (
 			<div> 
 				<div className="stockInputContainer">
@@ -270,14 +244,14 @@ var input = React.createClass({
 						<TextField className="stockInput" hintText="GOOG (ex. Google)" floatingLabelText="Enter Stock Symbol" onChange={this.handleChange}/>
 					</MuiThemeProvider>
 					<MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-						<RaisedButton className="addStockButton" backgroundColor="#a4c639" label="ADD" onClick={this.handleAddButtonClick}/>
+						<RaisedButton className="addStockButton" backgroundColor="#a4c639" label="ADD" onClick={this.handleAddButtonClick} disabled={this.state.disableAddButton}/>
 					</MuiThemeProvider>
 				</div>
 				<div className="stockCardsContainer">
 					{stockHTML}
 				</div>
 				<MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-					<Snackbar className="warningMessage" open={this.state.openSnackBar} message={this.state.snackBarMessages}/>			
+					<Snackbar style={snackBarMessageStyle} className="warningMessage" open={this.state.openSnackBar} message={this.state.snackBarMessages}/>			
 				</MuiThemeProvider>
 			</div>
 		);
@@ -285,14 +259,3 @@ var input = React.createClass({
 });
 
 module.exports = input;
-
-					// <Snackbar open={this.state.openSnackBar} message={this.state.snackBarMessages} autoHideDuration="2000"/>			
-// <div>
-// 	<div>
-// 		{this.props.text}
-// 	</div>
-// 	<div>
-// 		<input name="stock" value={this.state.stock} onChange={this.handleChange}/>
-// 		<button type="button" disabled={!this.state.stock} onClick={this.handleClick}>Button</button>
-// 	</div>
-// </div>

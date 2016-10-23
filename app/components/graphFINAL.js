@@ -3,69 +3,10 @@ var Highstocks = require("highcharts/highstock");
 
 var Highcharts = require("highcharts");
 
-console.log("Highcharts themes")
-console.log(Highcharts)
-console.log("Highcharts themes")
-
 var graph = React.createClass({
 	componentWillUpdate: function(){
-		console.log("component is about to update HALLAUAH!!!");
-
-		console.log("stocksData");
-		console.log(this.props.stocksData);
-		console.log("stocksData");
-
-		console.log("stock chart");
-		console.log(this.chart);
-		console.log("stock chart");
-
-		// if we have more stock data than before we are adding
-		// if (this.props.stocksData.length > (this.chart.series.length - 1)) {
-		// 	var arrayWithAllStockData = this.props.stocksData;
-		// 	var stockDataToAddToGraphSeries = {
-		// 		name: arrayWithAllStockData[arrayWithAllStockData.length - 1].query.results.quote[0].Symbol,
-		// 		data: []
-		// 	};
-
-		// 	arrayWithAllStockData[arrayWithAllStockData.length - 1].query.results.quote.forEach(function(quote){
-		// 		var dataArray = quote.Date.split("-");
-		// 		stockDataToAddToGraphSeries.data.unshift([
-		// 			Date.UTC(dataArray[0], (dataArray[1] - 1), dataArray[2]),
-		// 			parseFloat(quote.Close)
-		// 		]);
-		// 	});
-
-		// 	this.chart.addSeries(stockDataToAddToGraphSeries);			
-		// }
-		// else {
-		// 	// we are deleting from the graph
-
-		// 	// Have to find the stock that we are deleting
-		// 	var nameOfStockToDelete = "";
-		// 	var self = this;
-		// 	// The current stocks
-		// 	var currentStocks = [];
-		// 	this.props.stocksData.forEach(function(stock){
-		// 		if (typeof stock === "string") {
-		// 			var stock = JSON.parse(stock);
-		// 		}
-		// 		currentStocks.push(stock.query.results.quote[0].Symbol)
-		// 	});
-		// 	// Loop through the chart series till you find a stock that is not in current series.
-		// 	var indexOfSeriesToRemove;
-		// 	this.chart.series.some(function(singleSeries, index){
-		// 		var stockIndex = currentStocks.indexOf(singleSeries.name);
-		// 		if (stockIndex > -1 || singleSeries.name === "Navigator") {
-		// 			return false;
-		// 		} else {
-		// 			indexOfSeriesToRemove = index;
-		// 			return true;
-		// 		}
-		// 	});
-		// 	this.chart.series[indexOfSeriesToRemove].remove();
-		// }
-
-
+		// console.log(this.props.stocksData);
+		// console.log(this.chart);
 	},
 	componentDidMount: function() {
 
@@ -206,7 +147,6 @@ Highcharts.theme = {
 		}
 	},
 
-	// scroll charts
 	rangeSelector: {
 		buttonTheme: {
 			fill: '#505053',
@@ -268,7 +208,6 @@ Highcharts.theme = {
 		trackBorderColor: '#404043'
 	},
 
-	// special colors for some of the
 	legendBackgroundColor: 'rgba(0, 0, 0, 0.5)',
 	background2: '#505053',
 	dataLabelsColor: '#B0B0B3',
@@ -282,14 +221,6 @@ Highcharts.theme = {
 
 		// MOVE TO OWN MODULE
 
-
-		console.log("stocksData");
-		console.log(this.props.stocksData);
-		console.log("stocksData");
-
-		console.log("Highcharts themes client")
-		console.log(Highcharts)
-		console.log("Highcharts themes client")
 		var stockGraphData = [];
 		this.props.stocksData.forEach(function(stock){
 			var stock = JSON.parse(stock);
@@ -310,25 +241,6 @@ Highcharts.theme = {
 			stockGraphData.push(stockInfo);
 		});
 
-
-
-		console.log("stockGraphData after");
-		console.log(stockGraphData);
-		console.log("stockGraphData after");
-
-
-		// var testData = [
-		//     [Date.UTC(2007,7,21),0.7429],
-		//     [Date.UTC(2007,7,22),0.7383],
-		//     [Date.UTC(2007,7,23),0.7369],
-		//     [Date.UTC(2007,7,24),0.7309],
-		//     [Date.UTC(2007,7,27),0.7329],
-		//     [Date.UTC(2007,7,28),0.7352],
-		//     [Date.UTC(2007,7,29),0.7311],
-		//     [Date.UTC(2007,7,30),0.7331],
-		//     [Date.UTC(2007,7,31),0.7337]
-	 //    ];
-
 		var container = "stockChart";
 		var options =
 		{
@@ -336,7 +248,7 @@ Highcharts.theme = {
 		      selected: 4
 		    },
 		    title: {
-		      text: 'VISHNU BITCHING STOCK CHART'
+		      text: 'AWESOME ISOMORPHIC STOCK CHART'
 		    },
 		    tooltip: {
 		      valueDecimals: 2
@@ -354,7 +266,6 @@ Highcharts.theme = {
 
 	},
 	componentWillReceiveProps: function(nextProps) {
-		console.log(nextProps);
 
 		// if we have more stock data than before we are adding
 		if (nextProps.stocksData.length > (this.chart.series.length - 1)) {
@@ -375,9 +286,7 @@ Highcharts.theme = {
 			this.chart.addSeries(stockDataToAddToGraphSeries);			
 		}
 		else {
-			// we are deleting from the graph
-
-			// Have to find the stock that we are deleting
+			// Deleting from graph. First have to find the stock that we are deleting
 			var nameOfStockToDelete = "";
 			var self = this;
 			// The current stocks

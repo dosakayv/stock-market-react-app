@@ -185,7 +185,7 @@ var layout = React.createClass({
 			});
 		});
 	},
-	deleteStock: function(stock) {
+	deleteStock: function(stockToDelete) {
 		console.log("about to add the stocks");
 		console.log(stocksData);
 		console.log("about to add the stocks");
@@ -223,7 +223,7 @@ var layout = React.createClass({
 		// Request.post({url: 'http://localhost:4000/delete', form:{name: stock}}, function(err,httpResponse,body){
 
 		// Have to figure out proper way to post!!!!! vishnu
-		Request.post({url: 'https://react-stock-app.herokuapp.com/delete', form:{name: stock}}, function(err,httpResponse,body){
+		Request.post({url: 'https://react-stock-app.herokuapp.com/delete', form:{name: stockToDelete}}, function(err,httpResponse,body){
 			// have to remove from list now 
 
 			// var indexOfStockToRemove = stocksToDisplay.indexOf(body);
@@ -233,10 +233,10 @@ var layout = React.createClass({
 			var stockListArray = self.state.stockList.slice();
 			var stocksDataArray = self.state.stocksData.slice();
 
-			var indexOfStockToRemoveFromStockList = stockListArray.indexOf(body);
+			var indexOfStockToRemoveFromStockList = stockListArray.indexOf(stockToDelete);
 			stockListArray.splice(indexOfStockToRemoveFromStockList, 1);
 
-			var indexOfStockToRemoveFromStockData = findStock(body, stocksDataArray);
+			var indexOfStockToRemoveFromStockData = findStock(stockToDelete, stocksDataArray);
 			stocksDataArray.splice(indexOfStockToRemoveFromStockData, 1);
 
 			self.setState({

@@ -15,9 +15,6 @@ var routes = function(app) {
 	app.get('/', function(req, res){
 		// vishnu this works great!
 		// StockModels.find(function(err, docs){
-		// 	console.log(docs);
-		// 	// console.log("stringify: ", JSON.stringify(docs));
-		// 	// var reactHtml = ReactDOM.renderToString(ReactApp({stocksData: JSON.stringify(docs)}));
 		// 	var stocks = {
 		// 		stockList: []
 		// 	};
@@ -30,19 +27,26 @@ var routes = function(app) {
 		// 	res.render('index.ejs', {reactOutput: reactHtml, initialStocksData: stocksJSONString});
 		// });
 		// vishnu this works great!
-		var callback = function(docs) {
+		var stockDataRetrieved = function(docs) {
 			var stocks = {
 				stockList: []
 			};
-			docs.forEach(function(stock){
-				stocks.stockList.push(stock.name);
-			});
-			// var stocksJSONString = JSON.stringify(stocks);
+			console.log("VISHNU 3284902834 Remove: ", docs);
+			if (docs.length > 0) {
+				docs.forEach(function(stock){
+					stocks.stockList.push(stock.name);
+				});			
+				getAllStocksData(stocks);
+			}
+			else {
+				var stocksJSONString = JSON.stringify({
+					stocks: [],
+					stocksData: []
+				});
 
-			// var reactHtml = ReactDOM.renderToString(ReactApp({stocks: stocks.stockList}));
-			// res.render('index.ejs', {reactOutput: reactHtml, initialStocksData: stocksJSONString});
-			
-			getAllStocksData(stocks);
+				var reactHtml = ReactDOM.renderToString(ReactApp({stocks: [], stocksData: []}));
+				res.render('index.ejs', {reactOutput: reactHtml, initialStocksData: stocksJSONString});
+			}
 		}
 
 		var getStartAndEndDates = function() {
@@ -72,22 +76,13 @@ var routes = function(app) {
 
 		var getAllStocksData = function(stocks){
 
-			console.log("stocks to that I got from database");
-			console.log(stocks);
-			console.log("stocks to that I got from database");
+			console.log("stocks in database: ", stocks);
 
 			var url = 'https://query.yahooapis.com/v1/public/yql';
 			var dates = getStartAndEndDates();
 			var startDate = dates.startDate;
 			var endDate = dates.endDate;
 
-			console.log(startDate);
-			console.log(endDate);
-
-			// var startDate = '2015-07-16';
-			// var endDate = '2016-07-16';
-
-			// var testStocks = ["YHOO","AAPL","GOOG","MSFT"];
 			var testStocks = stocks.stockList;
 			var testStocksDataRecieved = 0;
 			var testStocksData = [];
@@ -98,7 +93,6 @@ var routes = function(app) {
 					testStocksDataRecieved += 1;
 					testStocksData.push(response.body);
 					
-					console.log("I got to do a lot of cleaning");
 					if(testStocksDataRecieved === testStocks.length) {
 						var stocksJSONString = JSON.stringify({
 							stocks: testStocks,
@@ -106,7 +100,6 @@ var routes = function(app) {
 						});
 
 						var reactHtml = ReactDOM.renderToString(ReactApp({stocks: stocks.stockList, stocksData: testStocksData}));
-						// res.render('index.ejs', {reactOutput: reactHtml});
 						res.render('index.ejs', {reactOutput: reactHtml, initialStocksData: stocksJSONString});
 					}
 				});				
@@ -119,32 +112,25 @@ var routes = function(app) {
 			// var data = encodeURIComponent('select * from yahoo.finance.his0toricaldata where symbol in ("' + stockName + '") and startDate = "' + startDate + '" and endDate = "' + endDate + '"');
 			
 			// $.getJSON(url, 'q=' + data + "&env=http%3A%2F%2Fdatatables.org%2Falltables.env&format=json", function(){
-			// 	console.log("I got to do a lot of cleaning");
 			// 	var reactHtml = ReactDOM.renderToString(ReactApp({stocks: stocks.stockList}));
 			// 	res.render('index.ejs', {reactOutput: reactHtml, initialStocksData: stocksJSONString});
 			// });
 			// Request.get(url + '?q=' + data + "&env=http%3A%2F%2Fdatatables.org%2Falltables.env&format=json", function(error, response){
-			// 	console.log("I got to do a lot of cleaning");
-			// 	console.log("error: ", error);
-			// 	console.log("response: ", response.body);
 			// 	var reactHtml = ReactDOM.renderToString(ReactApp({stocks: stocks.stockList}));
 			// 	res.render('index.ejs', {reactOutput: reactHtml, initialStocksData: stocksJSONString});
 			// });
 
 			// var url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quote%20where%20symbol%20in%20(%22YHOO%22%2C%22AAPL%22%2C%22GOOG%22%2C%22MSFT%22)%20and%20startDate%20%3D%20%222015-04-10%22%20and%20endDate%20%3D%20%222016-04-12%22&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
 			// Request.get(url, function(error, response){
-			// 	console.log("I got to do a lot of cleaning");
-			// 	console.log("error: ", error);
-			// 	console.log("response: ", response.body);
 			// 	var reactHtml = ReactDOM.renderToString(ReactApp({stocks: stocks.stockList}));
 			// 	res.render('index.ejs', {reactOutput: reactHtml, initialStocksData: stocksJSONString});
 			// });
 
 			// var url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quote%20where%20symbol%20in%20(%22YHOO%22%2C%22AAPL%22%2C%22GOOG%22%2C%22MSFT%22)&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
-			// Request.get(url, callback);
+			// Request.get(url, stockDataRetrieved);
 		};
 
-		StockModels.getAllStocks(callback);
+		StockModels.getAllStocks(stockDataRetrieved);
 		
 		// var getAllStocksData = function(stocks) {
 		// 	var stocksToDisplay = stocks.stockList;
@@ -215,19 +201,12 @@ var routes = function(app) {
 		var data = new StockModels(stock);
 
 		data.save();
-		// res.redirect('/');
 		res.json(stock);
 	});
 
 	app.post('/delete', function(req, res){
-		console.log("about to delete shit");
-		console.log(req.body.name);
-		console.log("about to delete shit");
 		StockModels.find({name: req.body.name}).remove(function(){
-			console.log("removed this bitch");
-			// res.json(req.body.name); //clean up 
 			res.send(req.body.name); //clean up 
-			// res.redirect('/');
 		});
 	});
 }

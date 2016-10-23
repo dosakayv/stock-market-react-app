@@ -4,10 +4,6 @@ var ReactApp = require("./components/layout.js");
 
 var initialStockData = JSON.parse(document.getElementById("initial-data").innerHTML);
 
-// console.log("initialStockData information");
-// console.log(initialStockData);
-// console.log("initialStockData information");
-
 var mountNode = document.getElementById("react-main-mount");
 ReactDOM.render(<ReactApp stocks={initialStockData.stocks} stocksData={initialStockData.stocksData}/>, mountNode);
 // ReactDOM.render(<ReactApp />, mountNode);
